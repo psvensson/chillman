@@ -1,0 +1,31 @@
+{
+  "name": "chillman",
+  "version": "1.0.0",
+  "description": "simple dampening library for node.js that makes sure that multiple successive calls to resolve a resource waits after the first, so that the resource is only resolved once per resource resolving storm",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/psvensson/chillman.git"
+  },
+  "keywords": [
+    "node.js",
+    "dampening",
+    "resource",
+    "access"
+  ],
+  "author": "psvensson@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/psvensson/chillman/issues"
+  },
+  "homepage": "https://github.com/psvensson/chillman#readme",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "lru": "^3.1.0",
+    "mocha": "^2.5.3",
+    "node-promise": "^0.5.12"
+  }
+}
