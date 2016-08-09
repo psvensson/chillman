@@ -6,23 +6,29 @@ class Chillman
   @underwayCache: new lru()
   @callbackCache: new lru()
 
-  @lookup: (key, resolveFunc) =>
+  @lookup: (key, type, resolveFunc) =>
     q = defer()
-    underway = Chillman.underwayCache.get(key)
+    underway = Chillman.underwayCache.get(key+'_'+type)
     if underway
-      callbacks = Chillman.callbackCache[key] or []
+      callbacks = Chillman.callbackCache.get(key+'_'+type) or []
       callbacks.push q
-      Chillman.callbackCache[key] = callbacks
+      Chillman.callbackCache.set(key+'_'+type, callbacks)
     else
-      Chillman.underwayCache.set(key, true)
-      Chillman._doLookup(key, resolveFunc, q)
+      Chillman.underwayCache.set(key+'_'+type, true)
+      Chillman._doLookup(key, type, resolveFunc, q)
     q
 
-  @_doLookup: (key, resolveFunc, q) =>
-    resolveFunc(key).then (result) =>
-      Chillman.underwayCache.remove(key)
-      callbacks = Chillman.callbackCache[key] or []
-      callbacks.forEach (_q) => _q.resolve(result)
+  @_doLookup: (key, type, resolveFunc, q) =>
+    resolveFunc(key, type).then (result) =>
+      Chillman.underwayCache.remove(key+'_'+type)
+      callbacks = Chillman.callbackCache.get(key+'_'+type) or []
+      cbcount = callbacks.length
+      callbacks.forEach (_q) =>
+        #console.log 'calling callback '+cbcount+' for '+key+' and '+type
+        _q.resolve(result)
+        if --cbcount == 0
+          #console.log 'removing callback cache entry for '+key+'_'+type
+          Chillman.callbackCache.remove(key+'_'+type)
       q.resolve(result)
 
 module.exports = Chillman
