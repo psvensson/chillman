@@ -25,7 +25,7 @@
   "dependencies": {
     "chai": "^3.5.0",
     "lru": "^3.1.0",
-    "mocha": "^2.5.3",
+    "mocha": "^5.1.1",
     "node-promise": "^0.5.12"
   }
 }
