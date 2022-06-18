@@ -1,2 +1,2 @@
-var Tiler = require('./lib/Chillman');
-module.exports = Tiler;
+var Chillman = require('./lib/Chillman');
+module.exports = Chillman;
